@@ -4,7 +4,7 @@ import { gap } from "../../../styles/mixins";
 
 const Element = styled.li`
   min-width: 75px;
-  width: calc(100% / 6);
+  width: calc(100% / 2);
   display: flex;
   align-items: center;
   flex-flow: column;

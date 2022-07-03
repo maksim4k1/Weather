@@ -6,7 +6,6 @@ const Content = styled.div`
   padding: 20px 30px;
   @media screen and (max-width: 600px){
     padding: 50px 15px;
-    height: calc(100vh - 92.6px);
   }
 `;
 const ErrorTitle = styled.h2`

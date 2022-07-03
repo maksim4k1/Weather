@@ -47,6 +47,11 @@ body::-webkit-scrollbar-thumb {
   background: var(--color-blue);
   border-radius: 5px;
 }
+@media screen and (max-width: 600px){
+  body{
+    background: var(--color-white);
+  }
+}
 
 /* Стили контейнеров */
 .container{width: 100%; max-width: 740px; margin: 0 auto; padding: 0;}

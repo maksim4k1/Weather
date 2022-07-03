@@ -75,8 +75,10 @@ const MainInfoTemp = styled.h2`
 const MainInfoWeather = styled.h3`
   margin: 0 0 20px;
   font-size: 24px;
-  text-transform: capitalize;
   z-index: 10;
+  &:first-letter{
+    text-transform: uppercase;
+  }
 `;
 
 function MainPage ({nowWeather, mainDaysWeather, city, getNowWeather, getDaysWeatherMain}) {
