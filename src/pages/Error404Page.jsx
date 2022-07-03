@@ -4,11 +4,18 @@ import { NavLink } from "react-router-dom";
 
 const Content = styled.div`
   padding: 20px 30px;
+  @media screen and (max-width: 600px){
+    padding: 50px 15px;
+    height: calc(100vh - 92.6px);
+  }
 `;
 const ErrorTitle = styled.h2`
   margin: 0 0 10px;
   font-size: 32px;
   font-weight: 600;
+  @media screen and (max-width: 600px){
+    margin: 0 0 20px;
+  }
 `;
 const ErrorText = styled.p`
   &>a{
