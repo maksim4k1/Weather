@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Погода онлайн",
+  "name": "Погода онлайн. Узнай погоду в своём городе!",
   "icons": [
     {
       "src": "favicon.ico",
