@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
+import AppRouter from './components/AppRouter';
+import Header from './components/UI/Header';
+import './styles/App.css';
+import { gap } from './styles/mixins';
+
+const Container = styled.div`
+  padding: 50px 15px 80px;
+  margin: 0 auto;
+  display: flex;
+  flex-flow: column;
+  ${gap("10px")}
+  @media screen and (max-width: 600px){
+    &{
+      padding: 0;
+      ${gap("0")}
+    }  
+  }
+`;
+const Content = styled.main`
+  background: var(--color-white);
+  border-radius: 15px;
+  box-shadow: 0 0 10px var(--color-white-shadow);
+  overflow: hidden;
+  @media screen and (max-width: 600px){
+    &{
+      border-radius: 0;
+      box-shadow: 0 0 0 var(--color-white-shadow);
+    }  
+  }
+`;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container className='container'>
+      <Header/>
+      <Content>
+        <AppRouter/>
+      </Content>
+    </Container>
   );
 }
 

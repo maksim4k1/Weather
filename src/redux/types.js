@@ -1,0 +1,4 @@
+export const GET_NOW_WEATHER = "GET_NOW_WEATHER";
+export const GET_DAYS_WETHER_MAIN = "GET_DAYS_WETHER_MAIN";
+export const GET_DAYS_WETHER = "GET_DAYS_WETHER";
+export const SEARCH_CITY = "SEARCH_CITY";
