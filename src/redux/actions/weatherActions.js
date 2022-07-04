@@ -13,7 +13,7 @@ export function getNowWeatherAction(city){
 
     if(data){
       dispatch({type: GET_NOW_WEATHER_SUCCESS, payload: data});
-      searchCityAction(data.name);
+      dispatch(searchCityAction(data.name));
     } else{
       dispatch({type: SEARCH_CITY_FAILING});
       dispatch({type: GET_NOW_WEATHER_FAILING});
@@ -22,7 +22,6 @@ export function getNowWeatherAction(city){
 }
 export function getDaysWeatherAction(city){
   return async (dispatch) => {
-    dispatch({type: SEARCH_CITY_LOADING});
     dispatch({type: GET_DAYS_WETHER_MAIN_LOADING});
     dispatch({type: GET_DAYS_WETHER_LOADING});
 
@@ -32,9 +31,7 @@ export function getDaysWeatherAction(city){
     if(data){
       dispatch({type: GET_DAYS_WETHER_MAIN_SUCCESS, payload: data});
       dispatch({type: GET_DAYS_WETHER_SUCCESS, payload: data});
-      searchCityAction(data.city.name);
     } else{
-      dispatch({type: SEARCH_CITY_FAILING});
       dispatch({type: GET_DAYS_WETHER_MAIN_FAILING});
       dispatch({type: GET_DAYS_WETHER_FAILING});
     }

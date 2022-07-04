@@ -4,11 +4,11 @@ import { GET_NOW_WEATHER_SUCCESS, GET_DAYS_WETHER_MAIN_SUCCESS, GET_DAYS_WETHER_
 
 const initialState = {
   nowWeather: {},
-  nowWeatherState: stateCreator(SUCCESS),
+  nowWeatherState: stateCreator(LOADING),
   mainDaysWeather: {},
-  mainDaysWeatherState: stateCreator(SUCCESS),
+  mainDaysWeatherState: stateCreator(LOADING),
   daysWeather: [],
-  daysWeatherState: stateCreator(SUCCESS),
+  daysWeatherState: stateCreator(LOADING),
 };
 
 function mapData(data){
@@ -34,7 +34,8 @@ const weatherReducer = (state=initialState, {type, payload}) => {
   if(type === GET_NOW_WEATHER_SUCCESS){
     return payload ? {
       ...state,
-      nowWeather: payload
+      nowWeather: payload,
+      nowWeatherState: stateCreator(SUCCESS)
     } : state;
   } else if(type === GET_NOW_WEATHER_LOADING){
     return {
@@ -51,7 +52,8 @@ const weatherReducer = (state=initialState, {type, payload}) => {
     
     return payload ? {
       ...state,
-      mainDaysWeather: data
+      mainDaysWeather: data,
+      mainDaysWeatherState: stateCreator(SUCCESS)
     } : state;
   } else if(type === GET_DAYS_WETHER_MAIN_LOADING){
     return {
@@ -68,7 +70,8 @@ const weatherReducer = (state=initialState, {type, payload}) => {
 
     return payload ? {
       ...state,
-      daysWeather: data
+      daysWeather: data,
+      daysWeatherState: stateCreator(SUCCESS)
     } : state;
   } else if(type === GET_DAYS_WETHER_LOADING){
     return {

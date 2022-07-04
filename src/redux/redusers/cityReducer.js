@@ -3,7 +3,7 @@ import stateCreator from "../../utils/stateCreator";
 
 const initialState = {
   cityName: "Бишкек",
-  cityNameState: stateCreator(SUCCESS),
+  cityNameState: stateCreator(LOADING),
 };
 
 const searchFormReducer = (state=initialState, {type, payload}) => {

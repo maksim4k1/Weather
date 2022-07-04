@@ -13,6 +13,8 @@ import AnotherInfoList from "../components/UI/AnotherInfoList";
 import AnotherInfoListElement from "../components/UI/AnotherInfoListElement";
 import day from "../assets/day.webp";
 import night from "../assets/night.webp";
+import Loader from "../components/UI/Loader";
+import ErrorAlert from "../components/UI/ErrorAlert";
 
 const MainInfo = styled.div`
   padding: 20px 0 0;
@@ -106,7 +108,7 @@ const NowWeatherInfoLink = styled(NavLink)`
   z-index: 10;
 `;
 
-function DayPage ({city, nowWeather, mainDaysWeather, daysWeather, getNowWeather, getDaysWeatherMain}) {
+function DayPage ({city, nowWeather, mainDaysWeather, daysWeather, getNowWeather, getDaysWeatherMain, cityState, mainDaysWeatherState, daysWeatherState}) {
   const {id} = useParams();
   const [weather, setWeather] = useState({});
   const [mainWeather, setMainWeather] = useState({});
@@ -126,39 +128,59 @@ function DayPage ({city, nowWeather, mainDaysWeather, daysWeather, getNowWeather
 
   return(
     <Content>
-      <MainInfo>
-        <Title><div>{mainWeather ? `${mainWeather.city}` : ""}, <span>{mainWeather ? `${mainWeather.country}` : ""}</span><br/><span>{mapDate(Number(id))}</span></div></Title>
-        <DayWeatherList>
-          {
-            weather && weather.length ?
-            weather.map((item, index) => (
-              <DayWeatherListElement key={index} time={item.time} temp={item.temp} weatherIcon={`http://openweathermap.org/img/wn/${item.weatherIcon}@2x.png`} />
-            ))
-            : "Загрузка..."
-          }
-        </DayWeatherList>
-        <AnotherInfoList>
-          <AnotherInfoListElement title="Давление" value={mainWeather ? `${mainWeather.pressure} мм рт. ст.` : "Загрузка..."} />
-          <AnotherInfoListElement title="Влажность" value={mainWeather ? `${mainWeather.humidity} %` : "Загрузка..."} />
-          <AnotherInfoListElement title="Скорость ветра" value={mainWeather ? `${mainWeather.windSpeed} м/с` : "Загрузка..."} />
-        </AnotherInfoList>
-      </MainInfo>
-      <NowWeatherInfo style={(nowWeather.sys && ((nowWeather.sys.sunset > nowWeather.dt) && (nowWeather.sys.sunrise < nowWeather.dt))) ? {} : {backgroundImage: `url(${night})`}}>
-        <NowWeatherInfoTitle>Погода сейчас</NowWeatherInfoTitle>
-        <NowWeatherInfoTemp>{nowWeather.main ? `${Math.round(nowWeather.main.temp - 273.15)} c°` : "0 c°"}</NowWeatherInfoTemp>
-        <NowWeatherInfoWeather>{nowWeather.weather ? nowWeather.weather[0].description : "Загрузка..."}</NowWeatherInfoWeather>
-        <NowWeatherInfoLink to="/">Подробнее</NowWeatherInfoLink>
-      </NowWeatherInfo>
-      <WeekWeather weather={mainDaysWeather}/>
+      {
+        !cityState.loading ?
+        !cityState.failing ?
+        <>
+        {
+          !daysWeatherState.loading ?
+          !daysWeatherState.failing ?
+          <MainInfo>
+            <Title><div>{mainWeather ? `${mainWeather.city}` : ""}, <span>{mainWeather ? `${mainWeather.country}` : ""}</span><br/><span>{mapDate(Number(id))}</span></div></Title>
+            <DayWeatherList>
+              {
+                weather && weather.length ?
+                weather.map((item, index) => (
+                  <DayWeatherListElement key={index} time={item.time} temp={item.temp} weatherIcon={`http://openweathermap.org/img/wn/${item.weatherIcon}@2x.png`} />
+                ))
+                : "Загрузка..."
+              }
+            </DayWeatherList>
+            <AnotherInfoList>
+              <AnotherInfoListElement title="Давление" value={mainWeather ? `${mainWeather.pressure} мм рт. ст.` : "Загрузка..."} />
+              <AnotherInfoListElement title="Влажность" value={mainWeather ? `${mainWeather.humidity} %` : "Загрузка..."} />
+              <AnotherInfoListElement title="Скорость ветра" value={mainWeather ? `${mainWeather.windSpeed} м/с` : "Загрузка..."} />
+            </AnotherInfoList>
+          </MainInfo> : <ErrorAlert>{daysWeatherState.error}</ErrorAlert>
+          : <Loader/>
+        }
+        <NowWeatherInfo style={(nowWeather.sys && ((nowWeather.sys.sunset > nowWeather.dt) && (nowWeather.sys.sunrise < nowWeather.dt))) ? {} : {backgroundImage: `url(${night})`}}>
+          <NowWeatherInfoTitle>Погода сейчас</NowWeatherInfoTitle>
+          <NowWeatherInfoTemp>{nowWeather.main ? `${Math.round(nowWeather.main.temp - 273.15)} c°` : "0 c°"}</NowWeatherInfoTemp>
+          <NowWeatherInfoWeather>{nowWeather.weather ? nowWeather.weather[0].description : "Загрузка..."}</NowWeatherInfoWeather>
+          <NowWeatherInfoLink to="/">Подробнее</NowWeatherInfoLink>
+        </NowWeatherInfo>
+        {
+          !mainDaysWeatherState.loading ?
+          !mainDaysWeatherState.failing ?
+          <WeekWeather weather={mainDaysWeather}/> : <ErrorAlert>{mainDaysWeatherState.error}</ErrorAlert>
+          : <Loader/>
+        }
+        </> : <ErrorAlert>{cityState.error}</ErrorAlert>
+        : <Loader/>
+      }
     </Content>
   );
 }
 
 const mapStateToProps = (state) => ({
   city: state.city.cityName,
+  cityState: state.city.cityNameState,
   nowWeather: state.weather.nowWeather,
   mainDaysWeather: state.weather.mainDaysWeather,
+  mainDaysWeatherState: state.weather.mainDaysWeatherState,
   daysWeather: state.weather.daysWeather,
+  daysWeatherState: state.weather.daysWeatherState,
 });
 const mapDispatchToProps = {
   getNowWeather: getNowWeatherAction,

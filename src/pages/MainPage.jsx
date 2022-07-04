@@ -6,10 +6,12 @@ import { gap } from "../styles/mixins";
 import SunInfo from "../components/SunInfo";
 import AnotherInfoList from "../components/UI/AnotherInfoList";
 import AnotherInfoListElement from "../components/UI/AnotherInfoListElement";
+import Loader from "../components/UI/Loader";
 import { getNowWeatherAction, getDaysWeatherAction } from "../redux/actions/weatherActions";
 import { connect } from "react-redux";
 import day from "../assets/day.webp";
 import night from "../assets/night.webp";
+import ErrorAlert from "../components/UI/ErrorAlert";
 
 const Info = styled.div`
   display: flex;
@@ -87,7 +89,7 @@ const MainInfoWeather = styled.h3`
   }
 `;
 
-function MainPage ({nowWeather, mainDaysWeather, city, getNowWeather, getDaysWeatherMain}) {
+function MainPage ({nowWeather, mainDaysWeather, city, getNowWeather, getDaysWeatherMain, cityState, mainDaysWeatherState}) {
   const date = new Date();
   const sunrise = nowWeather.sys ? new Date((nowWeather.sys.sunrise + (date.getTimezoneOffset()*60) + nowWeather.timezone) * 1000) : "";
   const sunset = nowWeather.sys ? new Date((nowWeather.sys.sunset + (date.getTimezoneOffset()*60) + nowWeather.timezone) * 1000) : "";
@@ -99,32 +101,44 @@ function MainPage ({nowWeather, mainDaysWeather, city, getNowWeather, getDaysWea
 
   return(
     <Content>
-      <Info>
-        <MainInfo style={(nowWeather.sys && ((nowWeather.sys.sunset > nowWeather.dt) && (nowWeather.sys.sunrise < nowWeather.dt))) ? {} : {backgroundImage: `url(${night})`}}>
-          <MainInfoCityName>
-            {
-              nowWeather.sys ?
-              <>
-                <div>{`${nowWeather.name}, ${nowWeather.sys.country}`}</div>
-                <div>{((nowWeather.sys.sunset > nowWeather.dt) && (nowWeather.sys.sunrise < nowWeather.dt)) ? "День" : "Ночь"}</div>
-              </> :
-              "Загрузка..."
-            }
-          </MainInfoCityName>
-          <MainInfoTemp>{nowWeather.main ? `${Math.round(nowWeather.main.temp - 273.15)} c°` : "0 c°"}</MainInfoTemp>
-          <MainInfoWeather>{nowWeather.weather ? nowWeather.weather[0].description : "Загрузка..."}</MainInfoWeather>
-          <SunInfo weather={nowWeather} sunrise={sunrise ? `${sunrise.getHours()}:${sunrise.getMinutes() >= 10 ? sunrise.getMinutes() : `0${sunrise.getMinutes()}`}` : "Загрузка..."} sunset={sunset ? `${sunset.getHours()}:${sunrise.getMinutes() >= 10 ? sunrise.getMinutes() : `0${sunrise.getMinutes()}`}` : "Загрузка..."} />
-        </MainInfo>
-        <AnotherInfoList>
-          <AnotherInfoListElement title="По ощущению" value={nowWeather.main ? `${Math.floor(nowWeather.main.feels_like - 273.15)} c°` : "Загрузка..."}/>
-          <AnotherInfoListElement title="Давление" value={nowWeather.main ? `${Math.floor(nowWeather.main.pressure * 0.75)} мм рт. ст.` : "Загрузка..."}/>
-          <AnotherInfoListElement title="Скорость ветра" value={nowWeather.main ? `${nowWeather.wind.speed} м/с` : "Загрузка..."}/>
-          <AnotherInfoListElement title="Облачность" value={nowWeather.main ? `${nowWeather.clouds.all} %` : "Загрузка..."}/>
-          <AnotherInfoListElement title="Влажность" value={nowWeather.main ? `${nowWeather.main.humidity} %` : "Загрузка..."}/>
-          <AnotherInfoListElement title="Видимость" value={nowWeather.main ? `${(Math.floor(nowWeather.visibility * 0.01) / 10)} км` : "Загрузка..."}/>
-        </AnotherInfoList>
-      </Info>
-      <WeekWeather weather={mainDaysWeather}/>
+      {
+        !cityState.loading ?
+        !cityState.failing ?
+        <>
+          <Info>
+            <MainInfo style={(nowWeather.sys && ((nowWeather.sys.sunset > nowWeather.dt) && (nowWeather.sys.sunrise < nowWeather.dt))) ? {} : {backgroundImage: `url(${night})`}}>
+              <MainInfoCityName>
+                {
+                  nowWeather.sys ?
+                  <>
+                    <div>{`${nowWeather.name}, ${nowWeather.sys.country}`}</div>
+                    <div>{((nowWeather.sys.sunset > nowWeather.dt) && (nowWeather.sys.sunrise < nowWeather.dt)) ? "День" : "Ночь"}</div>
+                  </> :
+                  "Загрузка..."
+                }
+              </MainInfoCityName>
+              <MainInfoTemp>{nowWeather.main ? `${Math.round(nowWeather.main.temp - 273.15)} c°` : "0 c°"}</MainInfoTemp>
+              <MainInfoWeather>{nowWeather.weather ? nowWeather.weather[0].description : "Загрузка..."}</MainInfoWeather>
+              <SunInfo weather={nowWeather} sunrise={sunrise ? `${sunrise.getHours()}:${sunrise.getMinutes() >= 10 ? sunrise.getMinutes() : `0${sunrise.getMinutes()}`}` : "Загрузка..."} sunset={sunset ? `${sunset.getHours()}:${sunrise.getMinutes() >= 10 ? sunrise.getMinutes() : `0${sunrise.getMinutes()}`}` : "Загрузка..."} />
+            </MainInfo>
+            <AnotherInfoList>
+              <AnotherInfoListElement title="По ощущению" value={nowWeather.main ? `${Math.floor(nowWeather.main.feels_like - 273.15)} c°` : "Загрузка..."}/>
+              <AnotherInfoListElement title="Давление" value={nowWeather.main ? `${Math.floor(nowWeather.main.pressure * 0.75)} мм рт. ст.` : "Загрузка..."}/>
+              <AnotherInfoListElement title="Скорость ветра" value={nowWeather.main ? `${nowWeather.wind.speed} м/с` : "Загрузка..."}/>
+              <AnotherInfoListElement title="Облачность" value={nowWeather.main ? `${nowWeather.clouds.all} %` : "Загрузка..."}/>
+              <AnotherInfoListElement title="Влажность" value={nowWeather.main ? `${nowWeather.main.humidity} %` : "Загрузка..."}/>
+              <AnotherInfoListElement title="Видимость" value={nowWeather.main ? `${(Math.floor(nowWeather.visibility * 0.01) / 10)} км` : "Загрузка..."}/>
+            </AnotherInfoList>
+          </Info>
+          {
+            !mainDaysWeatherState.loading ?
+            !mainDaysWeatherState.failing ?
+            <WeekWeather weather={mainDaysWeather}/> : <ErrorAlert>{mainDaysWeatherState.error}</ErrorAlert>
+            : <Loader/>
+          }
+        </> : <ErrorAlert>{cityState.error}</ErrorAlert>
+        : <Loader/>
+      }
     </Content>
   );
 }
@@ -132,7 +146,9 @@ function MainPage ({nowWeather, mainDaysWeather, city, getNowWeather, getDaysWea
 const mapStateToProps = (state) => ({
   nowWeather: state.weather.nowWeather,
   mainDaysWeather: state.weather.mainDaysWeather,
-  city: state.city.cityName
+  mainDaysWeatherState: state.weather.mainDaysWeatherState,
+  city: state.city.cityName,
+  cityState: state.city.cityNameState
 });
 const mapDispatchToProps = {
   getNowWeather: getNowWeatherAction,
