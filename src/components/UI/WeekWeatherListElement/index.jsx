@@ -48,9 +48,9 @@ const ElementWeather = styled.p`
   }
 `;
 
-function WeekWeatherListElement ({id, day, image, temp, weather}) {
+function WeekWeatherListElement ({link, day, image, temp, weather}) {
   return(
-    <Element to={`/day/${id}`}>
+    <Element to={link}>
       <ElementDayOfWeek>{mapDate(day)}</ElementDayOfWeek>
       <ElementImage src={image} alt="" />
       <ElementTemp>{temp}</ElementTemp>

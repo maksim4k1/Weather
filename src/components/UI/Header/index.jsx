@@ -56,8 +56,11 @@ const SearchButton = styled.button`
   font-size: 14px;
   font-weight: 600;
 `;
+const SearchButtonError = styled(SearchButton)`
+  background: #ff6868;
+`;
 
-function Header ({searchCity}) {
+function Header ({cityState, searchCity}) {
   const [value, setValue] = useState("");
   const [formData, setFormData] = useState({city: ""});
   useEffect(() => {
@@ -67,7 +70,7 @@ function Header ({searchCity}) {
   }, [value, setFormData]);
   function onSubmitHandler(event){
     event.preventDefault();
-    searchCity(formData);
+    searchCity(formData.city);
   }
   function onChangeHandler(event){
     setValue(event.target.value);
@@ -78,13 +81,19 @@ function Header ({searchCity}) {
       <NavLink to="/"><Logo>Погода онлайн</Logo></NavLink>
       <Form onSubmit={onSubmitHandler}>
         <SearchInput onChange={onChangeHandler} type="text" placeholder="Город" value={value}/>
-        <SearchButton type="submit">Поиск</SearchButton>
+        {
+          cityState.failing ?
+          <SearchButtonError type="submit">Ошибка</SearchButtonError>
+          : <SearchButton type="submit">Поиск</SearchButton>
+        }
       </Form>
     </HeaderElement>
   );
 }
 
-const mapStateToProps = (state) => (state);
+const mapStateToProps = (state) => ({
+  cityState: state.city.cityNameState
+});
 const mapDispatchToProps = {
   searchCity: searchCityAction,
 }

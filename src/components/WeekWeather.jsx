@@ -31,7 +31,7 @@ function WeekWeather ({weather}) {
           weather.map((item, index) => (
             <WeekWeatherListElement
               key={index}
-              id={index}
+              link={`/day/${index}`}
               day={index}
               image={`http://openweathermap.org/img/wn/${item.weatherIcon}@2x.png`}
               temp={`${item.maxTemp} c° / ${item.minTemp} c°`}

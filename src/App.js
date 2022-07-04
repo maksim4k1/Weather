@@ -14,7 +14,7 @@ const Container = styled.div`
     &{
       padding: 0;
       ${gap("0")}
-    }  
+    }
   }
 `;
 const Content = styled.main`

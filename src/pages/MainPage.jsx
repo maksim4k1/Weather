@@ -31,19 +31,24 @@ const MainInfo = styled.div`
   background-position: center;
   box-shadow: 0 0 8px var(--color-white-shadow);
   overflow: hidden;
-  &::after{
+  &::before, &::after{
     content: "";
     width: 100%;
-    height: 50px;
+    height: 100px;
     position: absolute;
     bottom: 0;
     left: 0;
-    background: linear-gradient(0deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 100%);
+    background: linear-gradient(0deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+  }
+  &::before{
+    top: 0;
+    bottom: auto;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
   }
   @media screen and (max-width: 600px){
     &{
       height: 420px;
-      &::after{
+      &::before, &::after{
         height: 100px;
       }
     }
@@ -56,6 +61,7 @@ const MainInfoCityName = styled.h3`
   display: flex;
   justify-content: space-between;
   font-weight: 600;
+  z-index: 10;
   @media screen and (max-width: 400px){
     &{
       padding: 0 15px;
@@ -126,7 +132,7 @@ function MainPage ({nowWeather, mainDaysWeather, city, getNowWeather, getDaysWea
 const mapStateToProps = (state) => ({
   nowWeather: state.weather.nowWeather,
   mainDaysWeather: state.weather.mainDaysWeather,
-  city: state.city
+  city: state.city.cityName
 });
 const mapDispatchToProps = {
   getNowWeather: getNowWeatherAction,

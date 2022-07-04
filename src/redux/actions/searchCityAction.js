@@ -1,5 +1,5 @@
-import { SEARCH_CITY } from "../types";
+import { SEARCH_CITY_SUCCESS } from "../types";
 
 export function searchCityAction(data){
-  return {type: SEARCH_CITY, payload: data.city};
+  return {type: SEARCH_CITY_SUCCESS, payload: data};
 }
