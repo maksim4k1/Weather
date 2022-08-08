@@ -1,8 +1,8 @@
-function filterDayData(day, list, city, country){
+function filterDayData(day, list, cityInfo){
   const dayData = {
     main: {
-      city: city,
-      country: country,
+      city: cityInfo.name,
+      country: cityInfo.country,
       minTemp: 0,
       maxTemp: 0,
       weather: "",
@@ -23,14 +23,14 @@ function filterDayData(day, list, city, country){
 
   for(let i = 0; i < list.length; i++){
     const value = list[i];
-    let date = value.dt_txt.split(" ")[0].split("-")[2];
+    let date = new Date((value.dt) * 1000);
 
-    if(date === day){
+    if(date.getDate() === day || ((date.getDate() - 1) === day && date.getHours() === 0)){
       dayData.list.push({
         temp: Math.floor(value.main.temp - 273.15),
         weather: value.weather[0].description,
         weatherIcon: value.weather[0].icon[0] + value.weather[0].icon[1] + "d",
-        time: value.dt_txt.split(" ")[1].split(":")[0] + ":00",
+        time: ((date.getDate() - 1) === day && date.getHours() === 0) ? "24:00" : ((date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":00"),
       });
       if(minTemp === 0 || minTemp > (value.main.temp_min - 273.15)){
         minTemp = Math.floor(value.main.temp_min - 273.15);

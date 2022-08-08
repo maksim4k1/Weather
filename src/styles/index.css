@@ -54,7 +54,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 /* Стили контейнеров */
-.container{width: 100%; max-width: 740px; margin: 0 auto; padding: 0;}
+.container{width: 100%; max-width: 780px; margin: 0 auto; padding: 0;}
 
 /* Переменные */
 :root{
