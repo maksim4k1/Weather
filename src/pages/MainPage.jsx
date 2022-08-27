@@ -103,7 +103,6 @@ function MainPage ({nowWeather, mainDaysWeather, city, getNowWeather, getDaysWea
     <Content>
       {
         !cityState.loading ?
-        !cityState.failing ?
         <>
           <Info>
             <MainInfo style={(nowWeather.sys && ((nowWeather.sys.sunset > nowWeather.dt) && (nowWeather.sys.sunrise < nowWeather.dt))) ? {} : {backgroundImage: `url(${night})`}}>
@@ -136,7 +135,7 @@ function MainPage ({nowWeather, mainDaysWeather, city, getNowWeather, getDaysWea
             <WeekWeather weather={mainDaysWeather}/> : <ErrorAlert>{mainDaysWeatherState.error}</ErrorAlert>
             : <Loader/>
           }
-        </> : <ErrorAlert>{cityState.error}</ErrorAlert>
+        </>
         : <Loader/>
       }
     </Content>

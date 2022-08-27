@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { gap } from "../../../styles/mixins";
-import { searchCityAction } from "../../../redux/actions/searchCityAction";
+import { searchCityAction } from "../../../redux/actions/cityAction";
 import { connect } from "react-redux/es/exports";
 
 const HeaderElement = styled.header`
@@ -56,6 +56,9 @@ const SearchButton = styled.button`
   font-size: 14px;
   font-weight: 600;
 `;
+const SearchButtonLoading = styled(SearchButton)`
+  background: var(--color-text-gray);
+`;
 const SearchButtonError = styled(SearchButton)`
   background: #ff6868;
 `;
@@ -74,6 +77,7 @@ function Header ({cityState, searchCity}) {
   }
   function onChangeHandler(event){
     setValue(event.target.value);
+    cityState.failing = false;
   }
 
   return(
@@ -82,8 +86,8 @@ function Header ({cityState, searchCity}) {
       <Form onSubmit={onSubmitHandler}>
         <SearchInput onChange={onChangeHandler} type="text" placeholder="Город" value={value}/>
         {
-          cityState.failing ?
-          <SearchButtonError type="submit">Ошибка</SearchButtonError>
+          cityState.failing ? <SearchButtonError disabled>Ошибка</SearchButtonError>
+          : cityState.loading ? <SearchButtonLoading disabled>Загрузка...</SearchButtonLoading>
           : <SearchButton type="submit">Поиск</SearchButton>
         }
       </Form>

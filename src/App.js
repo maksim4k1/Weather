@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import AppRouter from './components/AppRouter';
+import Footer from './components/UI/Footer';
 import Header from './components/UI/Header';
 import './styles/App.css';
 import { gap } from './styles/mixins';
@@ -37,6 +38,7 @@ function App() {
       <Content>
         <AppRouter/>
       </Content>
+      <Footer/>
     </Container>
   );
 }

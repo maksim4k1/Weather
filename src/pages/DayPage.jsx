@@ -52,6 +52,7 @@ const Title = styled.h3`
 const Date = styled.span`
   margin: 0 0 0 15px;
   font-size: 20px;
+  font-weight: 500;
   text-transform: lowercase;
 `;
 const NowWeatherInfo = styled.div`
@@ -135,7 +136,6 @@ function DayPage ({city, nowWeather, mainDaysWeather, daysWeather, getNowWeather
     <Content>
       {
         !cityState.loading ?
-        !cityState.failing ?
         <>
         {
           !daysWeatherState.loading ?
@@ -171,7 +171,7 @@ function DayPage ({city, nowWeather, mainDaysWeather, daysWeather, getNowWeather
           <WeekWeather weather={mainDaysWeather}/> : <ErrorAlert>{mainDaysWeatherState.error}</ErrorAlert>
           : <Loader/>
         }
-        </> : <ErrorAlert>{cityState.error}</ErrorAlert>
+        </>
         : <Loader/>
       }
     </Content>
