@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { gap } from "../../../styles/mixins";
-import mapDate from "../../../utils/mapDate";
+import { mapDaysOfWeek } from "../../../utils/mapDate";
 
 const Element = styled(NavLink)`
   width: calc(100% / 5);
@@ -51,7 +51,7 @@ const ElementWeather = styled.p`
 function WeekWeatherListElement ({link, day, image, temp, weather}) {
   return(
     <Element to={link}>
-      <ElementDayOfWeek>{mapDate(day)}</ElementDayOfWeek>
+      <ElementDayOfWeek>{mapDaysOfWeek(day)}</ElementDayOfWeek>
       <ElementImage src={image} alt="" />
       <ElementTemp>{temp}</ElementTemp>
       <ElementWeather>{weather}</ElementWeather>

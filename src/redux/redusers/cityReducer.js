@@ -2,7 +2,7 @@ import { FAILING, LOADING, SEARCH_CITY_FAILING, SEARCH_CITY_LOADING, SEARCH_CITY
 import stateCreator from "../../utils/stateCreator";
 
 const initialState = {
-  cityName: "Бишкек",
+  cityName: "Москва",
   cityNameState: stateCreator(LOADING),
 };
 

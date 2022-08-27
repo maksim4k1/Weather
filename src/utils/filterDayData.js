@@ -1,3 +1,5 @@
+import { mapMonths } from "../utils/mapDate";
+
 function filterDayData(day, list, cityInfo){
   const dayData = {
     main: {
@@ -6,7 +8,7 @@ function filterDayData(day, list, cityInfo){
       minTemp: 0,
       maxTemp: 0,
       weather: "",
-      date: day,
+      date: mapMonths(day),
       pressure: 0,
       humidity: 0,
       windSpeed: 0,

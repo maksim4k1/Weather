@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { getDaysWeatherAction, getNowWeatherAction } from "../redux/actions/weatherActions";
 import DayWeatherList from "../components/UI/DayWeatherList";
 import DayWeatherListElement from "../components/UI/DayWeatherListElement";
-import mapDate from "../utils/mapDate";
+import { mapDaysOfWeek } from "../utils/mapDate";
 import styled from "styled-components";
 import { gap } from "../styles/mixins";
 import AnotherInfoList from "../components/UI/AnotherInfoList";
@@ -48,6 +48,11 @@ const Title = styled.h3`
       padding: 0 15px;
     }  
   }
+`;
+const Date = styled.span`
+  margin: 0 0 0 15px;
+  font-size: 20px;
+  text-transform: lowercase;
 `;
 const NowWeatherInfo = styled.div`
   padding: 20px 0 15px;
@@ -136,7 +141,7 @@ function DayPage ({city, nowWeather, mainDaysWeather, daysWeather, getNowWeather
           !daysWeatherState.loading ?
           !daysWeatherState.failing ?
           <MainInfo>
-            <Title><div>{mainWeather ? `${mainWeather.city}` : ""}, <span>{mainWeather ? `${mainWeather.country}` : ""}</span><br/><span>{mapDate(Number(id))}</span></div></Title>
+            <Title><div>{mainWeather ? `${mainWeather.city}` : ""}, <span>{mainWeather ? `${mainWeather.country}` : ""}</span><br/><span>{mapDaysOfWeek(Number(id))} <Date>{mainWeather ? mainWeather.date : ""}</Date></span></div></Title>
             <DayWeatherList>
               {
                 weather && weather.length ?
