@@ -6,6 +6,7 @@ import './styles/App.css';
 import { gap } from './styles/mixins';
 
 const Container = styled.div`
+  min-height: 100vh;
   padding: 50px 15px 80px;
   margin: 0 auto;
   display: flex;

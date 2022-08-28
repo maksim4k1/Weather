@@ -5,10 +5,12 @@ import { gap } from "../../../styles/mixins";
 import SettingsIcon from "../../../assets/icons/SettingsIcon";
 import { saveCityAction } from "../../../redux/actions/cityAction";
 import { connect } from "react-redux/es/exports";
+import ErrorAlert from "../ErrorAlert";
 
 const FooterElement = styled.footer`
   min-height: 60px;
   padding: 0 30px;
+  margin: auto 0 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -82,6 +84,7 @@ const ModalWindow = styled.div`
   max-width: 350px;
   padding: 20px 30px;
   margin: 100px auto 0;
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -100,6 +103,7 @@ const ModalWindow = styled.div`
 
 const Form = styled.form`
   width: 100%;
+  position: relative;
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -130,7 +134,7 @@ const SaveButtonLoading = styled(SaveButton)`
   background: var(--color-text-gray);
 `;
 const SaveButtonError = styled(SaveButton)`
-  background: #ff6868;
+  background: var(--color-red);
 `;
 
 function Footer ({savedCityState, savedCityName, saveCity}) {
@@ -146,6 +150,8 @@ function Footer ({savedCityState, savedCityName, saveCity}) {
   function onClickHandler(event){
     if(event.currentTarget === event.target){
       setOpenModal(false);
+      setValue(savedCityName);
+      savedCityState.failing = false;
     }
   }
   function onSubmitHandler(event){
@@ -179,7 +185,7 @@ function Footer ({savedCityState, savedCityName, saveCity}) {
         <ModalWindow className={openModal ? "active" : ""}>
           <Form onSubmit={onSubmitHandler}>
             <Input type="text" placeholder="Город" onChange={onChangeHandler} value={value}/>
-            <InfoText>Введите название города, в которым вы живёте, чтобы при входе в приложение по умолчанию была показана погода именно в вашем городе!</InfoText>
+            <InfoText>Введите название города, в котором вы живёте, чтобы при входе в приложение по умолчанию была показана погода именно в вашем городе!</InfoText>
             {
             savedCityState.failing ? <SaveButtonError disabled>Ошибка</SaveButtonError>
             : savedCityState.loading ? <SaveButtonLoading disabled>Загрузка...</SaveButtonLoading>
@@ -188,6 +194,11 @@ function Footer ({savedCityState, savedCityName, saveCity}) {
           </Form>
         </ModalWindow>
       </Modal>
+      {
+        savedCityState.failing ?
+        <ErrorAlert error={savedCityState.error} isOpen={true}/>
+        : null
+      }
     </>
   );
 }

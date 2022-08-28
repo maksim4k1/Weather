@@ -6,8 +6,8 @@ const cityName = localStorage.getItem("savedCityName") || "Москва";
 const initialState = {
   cityName: cityName,
   savedCityName: cityName,
-  cityNameState: stateCreator(SUCCESS),
-  savedCityNameState: stateCreator(SUCCESS),
+  cityNameState: stateCreator(),
+  savedCityNameState: stateCreator(),
 };
 
 const cityReducer = (state=initialState, {type, payload}) => {
@@ -25,7 +25,7 @@ const cityReducer = (state=initialState, {type, payload}) => {
   } else if(type === SAVE_CITY_FAILING){
     return {
       ...state,
-      savedCityNameState: stateCreator(FAILING, "Название города введено не верно"),
+      savedCityNameState: stateCreator(FAILING, payload),
     }
   } else if(type === SEARCH_CITY_SUCCESS){
     return payload ? {
@@ -41,7 +41,7 @@ const cityReducer = (state=initialState, {type, payload}) => {
   } else if(type === SEARCH_CITY_FAILING){
     return {
       ...state,
-      cityNameState: stateCreator(FAILING, "Название города введено не верно"),
+      cityNameState: stateCreator(FAILING, payload),
     }
   } else{
     return state;

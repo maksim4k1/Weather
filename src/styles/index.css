@@ -62,7 +62,8 @@ body::-webkit-scrollbar-thumb {
   --color-black: #383838;
   --color-text-gray: #818181;
   --color-white-shadow: #E5E5E5;
-  --color-black-shadow: #505050;
+  --color-black-shadow: #888888;
   --color-blue: #a4dff0;
   --color-bg-gray: #F1F1F1;
+  --color-red: #ff6868;
 }

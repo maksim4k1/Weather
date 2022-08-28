@@ -4,11 +4,11 @@ import { GET_NOW_WEATHER_SUCCESS, GET_DAYS_WETHER_MAIN_SUCCESS, GET_DAYS_WETHER_
 
 const initialState = {
   nowWeather: {},
-  nowWeatherState: stateCreator(LOADING),
+  nowWeatherState: stateCreator(),
   mainDaysWeather: {},
-  mainDaysWeatherState: stateCreator(LOADING),
+  mainDaysWeatherState: stateCreator(),
   daysWeather: [],
-  daysWeatherState: stateCreator(LOADING),
+  daysWeatherState: stateCreator(),
 };
 
 function mapData(data){

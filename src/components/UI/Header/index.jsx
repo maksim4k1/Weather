@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { gap } from "../../../styles/mixins";
 import { searchCityAction } from "../../../redux/actions/cityAction";
 import { connect } from "react-redux/es/exports";
+import ErrorAlert from "../ErrorAlert";
 
 const HeaderElement = styled.header`
   min-height: 60px;
@@ -60,7 +61,7 @@ const SearchButtonLoading = styled(SearchButton)`
   background: var(--color-text-gray);
 `;
 const SearchButtonError = styled(SearchButton)`
-  background: #ff6868;
+  background: var(--color-red);
 `;
 
 function Header ({cityState, searchCity}) {
@@ -81,17 +82,24 @@ function Header ({cityState, searchCity}) {
   }
 
   return(
-    <HeaderElement>
-      <NavLink to="/"><Logo>Погода онлайн</Logo></NavLink>
-      <Form onSubmit={onSubmitHandler}>
-        <SearchInput onChange={onChangeHandler} type="text" placeholder="Город" value={value}/>
-        {
-          cityState.failing ? <SearchButtonError disabled>Ошибка</SearchButtonError>
-          : cityState.loading ? <SearchButtonLoading disabled>Загрузка...</SearchButtonLoading>
-          : <SearchButton type="submit">Поиск</SearchButton>
-        }
-      </Form>
-    </HeaderElement>
+    <>
+      <HeaderElement>
+        <NavLink to="/"><Logo>Погода онлайн</Logo></NavLink>
+        <Form onSubmit={onSubmitHandler}>
+          <SearchInput onChange={onChangeHandler} type="text" placeholder="Город" value={value}/>
+          {
+            cityState.failing ? <SearchButtonError disabled>Ошибка</SearchButtonError>
+            : cityState.loading ? <SearchButtonLoading disabled>Загрузка...</SearchButtonLoading>
+            : <SearchButton type="submit">Поиск</SearchButton>
+          }
+        </Form>
+      </HeaderElement>
+      {
+        cityState.failing ?
+        <ErrorAlert error={cityState.error} isOpen={true}/>
+        : null
+      }
+    </>
   );
 }
 

@@ -3,6 +3,9 @@ import { SEARCH_CITY_SUCCESS, SAVE_CITY_SUCCESS, SAVE_CITY_LOADING, SAVE_CITY_FA
 const API_KEY = "11c5bb34404731231ac094ed2f7c612f";
 
 export function searchCityAction(city){
+  if(city === ""){
+    return {type: SEARCH_CITY_FAILING, payload: "Ничего не введено"};
+  }
   return async (dispatch) => {
     dispatch({type: SEARCH_CITY_LOADING, payload: city});
 
@@ -12,7 +15,7 @@ export function searchCityAction(city){
     if(data){
       dispatch({type: SEARCH_CITY_SUCCESS, payload: city});
     } else{
-      dispatch({type: SEARCH_CITY_FAILING});
+      dispatch({type: SEARCH_CITY_FAILING, payload: "Название города введено неверно"});
     }
   }
 }
@@ -28,7 +31,7 @@ export function saveCityAction(city){
       dispatch(searchCityAction(city));
       localStorage.setItem("savedCityName", city);
     } else{
-      dispatch({type: SAVE_CITY_FAILING});
+      dispatch({type: SAVE_CITY_FAILING, payload: "Название города введено неверно"});
     }
   }
 }
