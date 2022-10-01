@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import WeekWeather from "../components/WeekWeather";
 import Content from "../components/UI/Content";
 import styled from "styled-components";
@@ -9,9 +9,8 @@ import AnotherInfoListElement from "../components/UI/AnotherInfoListElement";
 import Loader from "../components/UI/Loader";
 import { getNowWeatherAction, getDaysWeatherAction } from "../redux/actions/weatherActions";
 import { connect } from "react-redux";
-import day from "../assets/day.webp";
-import night from "../assets/night.webp";
 import ErrorAlert from "../components/UI/ErrorAlert";
+import weatherBgChanger from "../utils/weatherBgChanger";
 
 const Info = styled.div`
   display: flex;
@@ -27,7 +26,7 @@ const MainInfo = styled.div`
   ${gap("10px")}
   position: relative;
   color: var(--color-white);
-  background-image: url(${day});
+  background: var(--color-white);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -90,6 +89,7 @@ const MainInfoWeather = styled.h3`
 `;
 
 function MainPage ({nowWeather, mainDaysWeather, city, getNowWeather, getDaysWeatherMain, cityState, mainDaysWeatherState}) {
+  const [bgImage, setBgImage] = useState();
   const date = new Date();
   const sunrise = nowWeather.sys ? new Date((nowWeather.sys.sunrise + (date.getTimezoneOffset()*60) + nowWeather.timezone) * 1000) : "";
   const sunset = nowWeather.sys ? new Date((nowWeather.sys.sunset + (date.getTimezoneOffset()*60) + nowWeather.timezone) * 1000) : "";
@@ -98,6 +98,11 @@ function MainPage ({nowWeather, mainDaysWeather, city, getNowWeather, getDaysWea
     getNowWeather(city);
     getDaysWeatherMain(city);
   }, [getNowWeather, getDaysWeatherMain, city]);
+  useEffect(() => {
+    if(nowWeather.weather && nowWeather.weather[0].icon){
+      setBgImage(weatherBgChanger(nowWeather.weather[0].icon));
+    }
+  }, [nowWeather]);
 
   return(
     <Content>
@@ -105,7 +110,7 @@ function MainPage ({nowWeather, mainDaysWeather, city, getNowWeather, getDaysWea
         !cityState.loading ?
         <>
           <Info>
-            <MainInfo style={(nowWeather.sys && ((nowWeather.sys.sunset > nowWeather.dt) && (nowWeather.sys.sunrise < nowWeather.dt))) ? {} : {backgroundImage: `url(${night})`}}>
+            <MainInfo style={{backgroundImage: `url(${bgImage})`}}>
               <MainInfoCityName>
                 {
                   nowWeather.sys ?

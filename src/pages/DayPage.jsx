@@ -11,10 +11,9 @@ import styled from "styled-components";
 import { gap } from "../styles/mixins";
 import AnotherInfoList from "../components/UI/AnotherInfoList";
 import AnotherInfoListElement from "../components/UI/AnotherInfoListElement";
-import day from "../assets/day.webp";
-import night from "../assets/night.webp";
 import Loader from "../components/UI/Loader";
 import ErrorAlert from "../components/UI/ErrorAlert";
+import weatherBgChanger from "../utils/weatherBgChanger";
 
 const MainInfo = styled.div`
   padding: 20px 0 0;
@@ -63,7 +62,7 @@ const NowWeatherInfo = styled.div`
   ${gap("10px")}
   position: relative;
   color: var(--color-white);
-  background-image: url(${day});
+  background: var(--color-white);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -117,6 +116,7 @@ const NowWeatherInfoLink = styled(NavLink)`
 function DayPage ({city, nowWeather, mainDaysWeather, daysWeather, getNowWeather, getDaysWeatherMain, cityState, mainDaysWeatherState, daysWeatherState}) {
   const {id} = useParams();
   const [weather, setWeather] = useState({});
+  const [bgImage, setBgImage] = useState();
   const [mainWeather, setMainWeather] = useState({});
   const navigate = useNavigate();
 
@@ -131,6 +131,11 @@ function DayPage ({city, nowWeather, mainDaysWeather, daysWeather, getNowWeather
     setWeather(daysWeather[id]);
     setMainWeather(mainDaysWeather[id]);
   }, [setWeather, setMainWeather, daysWeather, mainDaysWeather, id]);
+  useEffect(() => {
+    if(nowWeather.weather && nowWeather.weather[0].icon){
+      setBgImage(weatherBgChanger(nowWeather.weather[0].icon));
+    }
+  }, [nowWeather]);
 
   return(
     <Content>
@@ -159,7 +164,7 @@ function DayPage ({city, nowWeather, mainDaysWeather, daysWeather, getNowWeather
           </MainInfo> : <ErrorAlert>{daysWeatherState.error}</ErrorAlert>
           : <Loader/>
         }
-        <NowWeatherInfo style={(nowWeather.sys && ((nowWeather.sys.sunset > nowWeather.dt) && (nowWeather.sys.sunrise < nowWeather.dt))) ? {} : {backgroundImage: `url(${night})`}}>
+        <NowWeatherInfo style={{backgroundImage: `url(${bgImage})`}}>
           <NowWeatherInfoTitle>Погода сейчас</NowWeatherInfoTitle>
           <NowWeatherInfoTemp>{nowWeather.main ? `${Math.round(nowWeather.main.temp - 273.15)} c°` : "0 c°"}</NowWeatherInfoTemp>
           <NowWeatherInfoWeather>{nowWeather.weather ? nowWeather.weather[0].description : "Загрузка..."}</NowWeatherInfoWeather>
