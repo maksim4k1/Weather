@@ -100,6 +100,7 @@ const NowWeatherInfoTemp = styled.h2`
 const NowWeatherInfoWeather = styled.h3`
   margin: 0 0 10px;
   font-size: 24px;
+  text-shadow: 0 0 10px var(--color-black-shadow);
   z-index: 10;
   &:first-letter{
     text-transform: uppercase;

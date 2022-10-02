@@ -82,6 +82,7 @@ const MainInfoTemp = styled.h2`
 const MainInfoWeather = styled.h3`
   margin: 0 0 20px;
   font-size: 24px;
+  text-shadow: 0 0 10px var(--color-black-shadow);
   z-index: 10;
   &:first-letter{
     text-transform: uppercase;
