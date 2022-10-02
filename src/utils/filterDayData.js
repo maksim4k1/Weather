@@ -28,15 +28,17 @@ function filterDayData(day, list, cityInfo){
     let date = new Date((value.dt) * 1000);
     const daysInMonth = 32 - new Date(date.getFullYear(), date.getMonth()+1, 32).getDate();
 
-    // ...
     const timeGap = date.getHours() % 3;
     if(timeGap !== 0){
-      date = new Date((value.dt - timeGap*60*60) * 1000);
+      if(timeGap === 1){
+        date = new Date((value.dt - 3600) * 1000);
+      } else{
+        date = new Date((value.dt + 3600) * 1000);
+      }
       if(Date.now() > (value.dt - timeGap*60*60) * 1000){
         continue;
       }
     }
-    // ...
 
     if(date.getDate() === day || ((date.getDate() - 1) === day && date.getHours() === 0) || ((date.getDate() === 1) && (date.getHours() === 0) && (day === daysInMonth))){
       dayData.list.push({
