@@ -15,8 +15,8 @@ function filterDayData(day, list, cityInfo){
     },
     list: []
   };
-  let minTemp = 0;
-  let maxTemp = 0;
+  let minTemp = 1000;
+  let maxTemp = -1000;
   let weather = [];
   let pressure = 0;
   let humidity = 0;
@@ -62,7 +62,7 @@ function filterDayData(day, list, cityInfo){
   }
 
   weather.sort();
-  let maxWeatherCount = 0
+  let maxWeatherCount = 0;
   let weatherCount = 0;
   let prevValue = "";
   let weatherValue = "";
