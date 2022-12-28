@@ -39,5 +39,5 @@ export function mapDaysOfWeek(num){
 
 export function mapMonths(day){
   const monthNum = date.getMonth();
-  return day < date.getDate() ? `${day} ${months[String(monthNum + 1)]}` : `${day} ${months[String(monthNum)]}`;
+  return day < date.getDate() ? `${day} ${months[String(monthNum !== 11 ? monthNum + 1 : 0)]}` : `${day} ${months[String(monthNum)]}`;
 }
