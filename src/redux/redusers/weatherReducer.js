@@ -18,10 +18,16 @@ function mapData(data){
   if(data){
     for(let i = 0; i < data.list.length; i++){
       const value = data.list[i];
-      let date = new Date(value.dt * 1000).getDate();
-      if(!days.find((i) => i === date)){
-        days.push(date);
-        daysData.push(filterDayData(date, data.list, data.city));
+      let date = new Date(value.dt * 1000);
+      let day = date.getDate();
+      let hours = date.getHours();
+
+      if(i === 0 && (hours === 0 || hours === 1 || hours === 2)){
+        days.push(day - 1);
+        daysData.push(filterDayData(day - 1, data.list, data.city));
+      } else if(!days.find((i) => i === day)){
+        days.push(day);
+        daysData.push(filterDayData(day, data.list, data.city));
       }
       if(days.length === 5) break;
     }
