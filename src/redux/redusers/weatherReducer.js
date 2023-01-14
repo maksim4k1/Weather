@@ -22,8 +22,9 @@ function mapData(data){
       let day = date.getDate();
       let hours = date.getHours();
 
-      if(i === 0 && (hours === 0 || hours === 1 || hours === 2)){
+      if(i === 0 && (hours === 0 || hours === 1 || hours === 2) && new Date().getDate() !== day){
         days.push(day - 1);
+        console.log("jgfjhk")
         daysData.push(filterDayData(day - 1, data.list, data.city));
       } else if(!days.find((i) => i === day)){
         days.push(day);
