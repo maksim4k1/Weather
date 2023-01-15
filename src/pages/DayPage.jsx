@@ -150,7 +150,7 @@ function DayPage ({city, nowWeather, mainDaysWeather, daysWeather, getNowWeather
             <Title><div>{mainWeather ? `${mainWeather.city}` : ""}, <span>{mainWeather ? `${mainWeather.country}` : ""}</span><br/><span>{mapDaysOfWeek(Number(id))} <Date>{mainWeather ? mainWeather.date : ""}</Date></span></div></Title>
             <DayWeatherList>
               {
-                weather && weather.length && weather.length !== 9 && nowWeather ?
+                Number(id) === 0 && weather && weather.length && weather.length !== 9 && nowWeather ?
                 <DayWeatherListElement time="Сейчас" temp={Math.round(nowWeather.main.temp - 273.15)} weatherIcon={`http://openweathermap.org/img/wn/${nowWeather.weather[0].icon}@2x.png`} />
                 : null
               }
