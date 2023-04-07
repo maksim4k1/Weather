@@ -157,7 +157,7 @@ function DayPage ({city, nowWeather, mainDaysWeather, daysWeather, getNowWeather
               {
                 weather && weather.length ?
                 weather.map((item, index) => (
-                  <DayWeatherListElement key={index} time={item.time} temp={item.temp} weatherIcon={`http://openweathermap.org/img/wn/${item.weatherIcon}@2x.png`} />
+                  <DayWeatherListElement key={index} time={item.time} temp={item.temp} weather={item.weather} weatherIcon={`http://openweathermap.org/img/wn/${item.weatherIcon}@2x.png`} />
                 ))
                 : "Загрузка..."
               }

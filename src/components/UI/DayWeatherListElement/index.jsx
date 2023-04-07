@@ -27,9 +27,9 @@ const ElementTemp = styled.div`
   font-size: 16px;
 `;
 
-function DayWeatherListElement ({time, temp, weatherIcon}) {
+function DayWeatherListElement ({time, temp, weather, weatherIcon}) {
   return(
-    <Element type="button" title="Подробнее">
+    <Element type="button" title={weather}>
       <ElementTime>{time}</ElementTime>
       <ElementImage src={weatherIcon} alt="" />
       <ElementTemp>{temp} c°</ElementTemp>
