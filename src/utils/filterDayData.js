@@ -40,12 +40,12 @@ function filterDayData(day, list, cityInfo){
       }
     }
 
-    if(date.getDate() === day || ((date.getDate() - 1) === day && date.getHours() === 0) || ((date.getDate() === 1) && (date.getHours() === 0) && (day === daysInMonth))){
+    if(date.getDate() === day || ((date.getDate() - 1) === day && date.getHours() === 0) || ((date.getDate() === 1) && (date.getHours() === 0) && (day === daysInMonth)) || ((day >= 28) && (date.getDate() === 1) && (date.getHours() === 0))){
       dayData.list.push({
         temp: Math.floor(value.main.temp - 273.15),
         weather: value.weather[0].description,
         weatherIcon: value.weather[0].icon[0] + value.weather[0].icon[1] + "d",
-        time: (((date.getDate() - 1) === day && date.getHours() === 0) || ((date.getDate() === 1) && (date.getHours() === 0) && (day === daysInMonth))) ? "24:00" : ((date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":00"),
+        time: (((date.getDate() - 1) === day && date.getHours() === 0) || ((date.getDate() === 1) && (date.getHours() === 0) && (day === daysInMonth)) || ((day >= 28) && (date.getDate() === 1) && (date.getHours() === 0))) ? "24:00" : ((date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":00"),
       });
       if(minTemp === 0 || minTemp > (value.main.temp_min - 273.15)){
         minTemp = Math.floor(value.main.temp_min - 273.15);
