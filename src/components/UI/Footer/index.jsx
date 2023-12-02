@@ -178,7 +178,7 @@ function Footer ({savedCityState, savedCityName, saveCity}) {
         <NavLink to="/"><Logo>Погода онлайн</Logo></NavLink>
         <Author>
           <AuthorTitle>Author</AuthorTitle>
-          <Link href="https://maksim4k1.github.io/Maksim-Bazhenov/" target="_blank">maksim4k1</Link>
+          <Link href="https://maksim4k1.github.io/" target="_blank">maksim4k1</Link>
         </Author>
       </FooterElement>
       <Modal className={openModal ? "active" : ""} onClick={onClickHandler}>
