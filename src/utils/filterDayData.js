@@ -26,7 +26,7 @@ function filterDayData(day, list, cityInfo){
   for(let i = 0; i < list.length; i++){
     const value = list[i];
     let date = new Date((value.dt) * 1000);
-    const daysInMonth = date.getMonth() === 2 ? date.getFullYear() % 4 === 0 ? 30 - new Date(date.getFullYear(), date.getMonth()+1, 31).getDate() : 29 - new Date(date.getFullYear(), date.getMonth()+1, 31).getDate() : 32 - new Date(date.getFullYear(), date.getMonth()+1, 32).getDate();
+    const daysInMonth = new Date(date.getFullYear(), date.getMonth()+1, 0).getDate();
 
     const timeGap = date.getHours() % 3;
     if(timeGap !== 0){
@@ -40,7 +40,7 @@ function filterDayData(day, list, cityInfo){
       }
     }
 
-    if(date.getDate() === day || ((date.getDate() - 1) === day && date.getHours() === 0) || ((date.getDate() === 1) && (date.getHours() === 0) && (day === daysInMonth)) || ((day >= 28) && (date.getDate() === 1) && (date.getHours() === 0))){
+    if(date.getDate() === day || ((date.getDate() - 1) === day && date.getHours() === 0) || ((date.getDate() === 1) && (date.getHours() === 0) && (day === daysInMonth)) || ((day >= 28) && (date.getDate() === 1) && (date.getHours() === 0) &&  (day === daysInMonth))){
       dayData.list.push({
         temp: Math.floor(value.main.temp - 273.15),
         weather: value.weather[0].description,
